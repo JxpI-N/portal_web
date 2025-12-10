@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head> <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal La Fortuna - Inicio</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Comunidad La Fortuna</h1>
+        <p>Portal Interactivo Comunitario</p>
+                    <a href="login.php">Iniciar Sesión</a> | <a href="register.php">Registrarse</a>
+            </header>
+    <nav>
+        <ul>
+            <li><a href="index.php">Inicio</a></li>
+            <li><a href="actividades.php">Actividades</a></li>
+            <li><a href="noticias.php">Noticias</a></li>
+                    </ul>
+    </nav>
+    <main>
+        <section id="bienvenida">
+            <h2>Bienvenido a La Fortuna</h2>
+            <p>Tu portal para participar, informarte y conectar con la comunidad.</p>
+            <!-- Asistente IA -->
+            <div id="chatbot">
+                <h3>Asistente IA</h3>
+                <div id="chat-messages"></div>
+                <input type="text" id="user-input" placeholder="Pregunta sobre la página...">
+                <button onclick="sendMessage()">Enviar</button>
+            </div>
+        </section>
+        <section id="eventos">
+            <h2>Próximos Eventos</h2>
+            <ul>
+                <li><strong>Celebración del Carnaval:</strong> Evento festivo comunitario Fecha: 2023-11-20</li><li><strong>Bailo Terapia:</strong> Clases de baile para adultos mayores Fecha: 2023-10-15</li>            </ul>
+            <a href="actividades.php"><button>Ver Todas</button></a>
+        </section>
+        <section id="noticias">
+            <h2>Últimas Noticias</h2>
+            <ul>
+                <li><strong>Nueva Escuela en Construcción:</strong> Información sobre el avance de la escuela local.... Fecha: 2025-12-10 18:13:41</li><li><strong>Reunión Comunitaria:</strong> Convocatoria para reunión el próximo sábado.... Fecha: 2025-12-10 18:13:41</li>            </ul>
+            <a href="noticias.php"><button>Ver Todas</button></a>
+        </section>
+        <!-- Chat Anónimo (solo para usuarios) -->
+        <section id="chat-anonimo">
+            <h2>Chat Anónimo</h2>
+            <div id="chat-messages-anonimo"></div>
+            <input type="text" id="anon-message" placeholder="Mensaje anónimo...">
+            <button onclick="sendAnonMessage()">Enviar</button>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 Comunidad La Fortuna.</p>
+    </footer>
+    <script>
+        // Asistente IA simple
+        function sendMessage() {
+            const input = document.getElementById('user-input').value;
+            const messages = document.getElementById('chat-messages');
+            messages.innerHTML += '<p>Tú: ' + input + '</p>';
+            // Simula respuesta IA
+            setTimeout(() => {
+                let response = 'Esta página es un portal comunitario donde puedes ver actividades, noticias y contactar a la comunidad. ¿Qué más quieres saber?';
+                messages.innerHTML += '<p>IA: ' + response + '</p>';
+            }, 1000);
+            document.getElementById('user-input').value = '';
+        }
+
+        // Chat Anónimo
+        function sendAnonMessage() {
+            const message = document.getElementById('anon-message').value;
+            $.post('send_chat.php', { message: message }, function() {
+                loadChat();
+            });
+            document.getElementById('anon-message').value = '';
+        }
+
+        function loadChat() {
+            $.get('get_chat.php', function(data) {
+                $('#chat-messages-anonimo').html(data);
+            });
+        }
+        setInterval(loadChat, 2000);  // Actualiza cada 2 segundos
+    </script>
+</body>
+</html>
